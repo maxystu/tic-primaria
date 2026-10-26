@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carpeta Pedagógica y Didáctica - TIC en Educación Primaria</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        },
+                        emeraldCustom: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(241, 245, 249, 1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        /* Gradient backdrop grid pattern */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-sky-500 selection:text-white relative bg-grid-pattern" x-data="{ activeTab: 'caratula', tpackSelected: 'TPCK' }">
+
+    <!-- Header / Navbar Principal -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Branding Institucional -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-900 via-brand-600 to-sky-400 flex items-center justify-center text-white font-bold shadow-md shadow-brand-500/20">
+                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider font-semibold text-brand-600 block">Carpeta Pedagógica y Didáctica</span>
+                        <h1 class="text-sm sm:text-base font-bold text-slate-900 leading-tight">Instituto Privado San Joaquín F-23</h1>
+                    </div>
+                </div>
+
+                <!-- Navegación de Pestañas Desktop -->
+                <nav class="hidden lg:flex items-center space-x-1 bg-slate-100/80 p-1.5 rounded-xl border border-slate-200">
+                    <button @click="activeTab = 'caratula'" :class="activeTab === 'caratula' ? 'bg-white text-brand-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'" class="px-3 py-1.5 text-xs sm:text-sm rounded-lg transition-all duration-200 flex items-center space-x-1.5">
+                        <i data-lucide="home" class="w-4 h-4"></i>
+                        <span>Inicio / Presentación</span>
+                    </button>
+                    <button @click="activeTab = 'fundamentacion'" :class="activeTab === 'fundamentacion' ? 'bg-white text-brand-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'" class="px-3 py-1.5 text-xs sm:text-sm rounded-lg transition-all duration-200 flex items-center space-x-1.5">
+                        <i data-lucide="network" class="w-4 h-4"></i>
+                        <span>Acto Didáctico</span>
+                    </button>
+                    <button @click="activeTab = 'modelos'" :class="activeTab === 'modelos' ? 'bg-white text-brand-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'" class="px-3 py-1.5 text-xs sm:text-sm rounded-lg transition-all duration-200 flex items-center space-x-1.5">
+                        <i data-lucide="laptop" class="w-4 h-4"></i>
+                        <span>Modelos TIC (1:1)</span>
+                    </button>
+                    <button @click="activeTab = 'tpack'" :class="activeTab === 'tpack' ? 'bg-white text-brand-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'" class="px-3 py-1.5 text-xs sm:text-sm rounded-lg transition-all duration-200 flex items-center space-x-1.5">
+                        <i data-lucide="layers" class="w-4 h-4"></i>
+                        <span>Modelo TPACK</span>
+                    </button>
+                    <button @click="activeTab = 'estrategias'" :class="activeTab === 'estrategias' ? 'bg-white text-brand-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'" class="px-3 py-1.5 text-xs sm:text-sm rounded-lg transition-all duration-200 flex items-center space-x-1.5">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span>Estrategias</span>
+                    </button>
+                    <button @click="activeTab = 'evaluacion'" :class="activeTab === 'evaluacion' ? 'bg-white text-brand-900 shadow-sm font-semibold' : 'text-slate-600 hover:text-slate-900 font-medium'" class="px-3 py-1.5 text-xs sm:text-sm rounded-lg transition-all duration-200 flex items-center space-x-1.5">
+                        <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+                        <span>Evaluación</span>
+                    </button>
+                </nav>
+
+                <!-- Selector de Ciclo / Año -->
+                <div class="hidden sm:flex items-center space-x-2 bg-brand-50 border border-brand-100 px-3 py-1.5 rounded-lg text-brand-800 text-xs font-medium">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-600"></i>
+                    <span>Año Lectivo 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Móvil Inferior/Scroll horizontal -->
+        <div class="lg:hidden flex overflow-x-auto py-2 px-4 space-x-2 bg-slate-100/90 border-t border-slate-200 no-scrollbar">
+            <button @click="activeTab = 'caratula'" :class="activeTab === 'caratula' ? 'bg-brand-600 text-white' : 'bg-white text-slate-700'" class="px-3 py-1 text-xs whitespace-nowrap rounded-lg shadow-sm font-medium">Inicio</button>
+            <button @click="activeTab = 'fundamentacion'" :class="activeTab === 'fundamentacion' ? 'bg-brand-600 text-white' : 'bg-white text-slate-700'" class="px-3 py-1 text-xs whitespace-nowrap rounded-lg shadow-sm font-medium">Acto Didáctico</button>
+            <button @click="activeTab = 'modelos'" :class="activeTab === 'modelos' ? 'bg-brand-600 text-white' : 'bg-white text-slate-700'" class="px-3 py-1 text-xs whitespace-nowrap rounded-lg shadow-sm font-medium">Modelos TIC</button>
+            <button @click="activeTab = 'tpack'" :class="activeTab === 'tpack' ? 'bg-brand-600 text-white' : 'bg-white text-slate-700'" class="px-3 py-1 text-xs whitespace-nowrap rounded-lg shadow-sm font-medium">TPACK</button>
+            <button @click="activeTab = 'estrategias'" :class="activeTab === 'estrategias' ? 'bg-brand-600 text-white' : 'bg-white text-slate-700'" class="px-3 py-1 text-xs whitespace-nowrap rounded-lg shadow-sm font-medium">Estrategias</button>
+            <button @click="activeTab = 'evaluacion'" :class="activeTab === 'evaluacion' ? 'bg-brand-600 text-white' : 'bg-white text-slate-700'" class="px-3 py-1 text-xs whitespace-nowrap rounded-lg shadow-sm font-medium">Evaluación</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 1: CARÁTULA Y PRESENTACIÓN DOCENTE -->
+        <!-- ========================================== -->
+        <section x-show="activeTab === 'caratula'" x-transition:enter="transition ease-out duration-300 transform opacity-0 scale-98" x-transition:enter-start="opacity-0 scale-98" x-transition:enter-end="opacity-100 scale-100" class="space-y-8">
+            
+            <!-- Hero Card Académica -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-950 via-brand-900 to-slate-900 text-white shadow-2xl p-6 sm:p-10 border border-brand-800/50">
+                <!-- Decoración de fondo -->
+                <div class="absolute -right-16 -top-16 w-80 h-80 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute right-1/3 -bottom-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 space-y-4 sm:space-y-6">
+                        <div class="inline-flex items-center space-x-2 bg-brand-800/60 border border-brand-700 px-3.5 py-1.5 rounded-full text-xs font-medium text-sky-200">
+                            <i data-lucide="book-open" class="w-4 h-4 text-sky-400"></i>
+                            <span>Cátedra: Tecnologías de la Información y la Comunicación (TIC)</span>
+                        </div>
+                        
+                        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white">
+                            Modelos de Planificación e Intervención con TIC en <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Educación Primaria</span>
+                        </h2>
+
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+                            Estimado Profesor Franco: Presentamos nuestra Carpeta Pedagógica y Didáctica orientada a la transposición didáctica de modelos tecnológicos (TPACK, Ubicuidad 1:1, Acto Didáctico) en el aula de Nivel Primario.
+                        </p>
+
+                        <!-- Datos de los Integrantes y Cátedra -->
+                        <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-800">
+                            <div class="flex items-start space-x-3 bg-slate-900/50 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
+                                    <i data-lucide="users" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-medium block">Expositores / Integrantes:</span>
+                                    <p class="text-sm font-semibold text-slate-100">Rios, Maximiliano</p>
+                                    <p class="text-sm font-semibold text-slate-100">Erazo, Luciano</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3 bg-slate-900/50 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                                    <i data-lucide="user-check" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-medium block">Docente Evaluador:</span>
+                                    <p class="text-sm font-semibold text-slate-100">Prof. Franco</p>
+                                    <span class="text-xs text-slate-400 block mt-0.5">Arzobispado de Tucumán</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ficha resumen lateral -->
+                    <div class="lg:col-span-4 bg-slate-900/80 p-6 rounded-2xl border border-slate-700/60 space-y-4">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                            <span class="text-xs uppercase font-bold text-sky-400 tracking-wider">Marco Institucional</span>
+                            <span class="text-xs bg-brand-500/20 text-sky-300 px-2.5 py-1 rounded-md font-semibold">F-23</span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-300">
+                            <li class="flex justify-between">
+                                <span class="text-slate-400">Institución:</span>
+                                <span class="font-medium text-slate-200">Inst. Privado San Joaquín</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-slate-400">Carrera:</span>
+                                <span class="font-medium text-slate-200">Prof. de Educación Primaria</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-slate-400">Nivel de Destino:</span>
+                                <span class="font-medium text-emerald-400">Educación Primaria</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-slate-400">Ciclo Lectivo:</span>
+                                <span class="font-medium text-slate-200">2026</span>
+                            </li>
+                        </ul>
+                        <button @click="activeTab = 'fundamentacion'" class="w-full py-2.5 bg-gradient-to-r from-sky-500 to-brand-600 hover:from-sky-400 hover:to-brand-500 text-white rounded-xl text-xs font-semibold shadow-md transition-all flex items-center justify-center space-x-2">
+                            <span>Iniciar Recorrido Expositivo</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Síntesis de la propuesta pedagógica -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center">
+                        <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Fundamentación Solida</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Basamos la propuesta en la visión del Acto Didáctico de Marqués (2001) como un sistema intencional de comunicación pedagógica adaptada a la infancia.
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Marco TPACK Integral</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Articulamos el saber disciplinar (CK), pedagógico (PK) y tecnológico (TK) propuesto por Mishra & Koehler para estructurar secuencias didácticas profundas.
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Estrategias y Evaluación</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Diseñamos intervenciones activas (Estaciones, Escape Rooms, ABP Transmedia) junto a una Rúbrica Formativa holística para el aula primaria.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 2: FUNDAMENTACIÓN Y ACTO DIDÁCTICO -->
+        <!-- ========================================== -->
+        <section x-show="activeTab === 'fundamentacion'" x-transition:enter="transition ease-out duration-300 transform opacity-0 scale-98" class="space-y-8">
+            <!-- Encabezado de Sección -->
+            <div class="max-w-3xl space-y-2">
+                <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Marco Teórico Disciplinar</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">El Acto Didáctico como Sistema de Comunicación</h2>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Según Pere Marqués (2001), el acto didáctico representa la actuación docente intencionada para facilitar aprendizajes significativos. En el Nivel Primario, los componentes interactúan dinámicamente mediados por la tecnología.
+                </p>
+            </div>
+
+            <!-- Interacción del Sistema de Comunicación (Diagrama Interactivo) -->
+            <div x-data="{ activeElement: 'profesor' }" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Selector de Componentes (Columna Izquierda) -->
+                <div class="lg:col-span-5 space-y-3">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Componentes del Acto Didáctico</h3>
+                    
+                    <button @click="activeElement = 'profesor'" :class="activeElement === 'profesor' ? 'border-brand-500 bg-brand-50/80 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'" class="w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center">
+                                <i data-lucide="user-check" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">El Profesor (Mediador)</h4>
+                                <p class="text-xs text-slate-500">Diseñador de mediaciones e itinerarios</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <button @click="activeElement = 'estudiantes'" :class="activeElement === 'estudiantes' ? 'border-brand-500 bg-brand-50/80 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'" class="w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                                <i data-lucide="users" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Los Estudiantes</h4>
+                                <p class="text-xs text-slate-500">Sujetos activos y constructores de saber</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <button @click="activeElement = 'contenidos'" :class="activeElement === 'contenidos' ? 'border-brand-500 bg-brand-50/80 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'" class="w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
+                                <i data-lucide="target" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Objetivos y Contenidos</h4>
+                                <p class="text-xs text-slate-500">Saberes disciplinares transpuestos</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <button @click="activeElement = 'contexto'" :class="activeElement === 'contexto' ? 'border-brand-500 bg-brand-50/80 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'" class="w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+                                <i data-lucide="building-2" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">El Contexto Institucional</h4>
+                                <p class="text-xs text-slate-500">Espacio físico, socio-cultural y tiempos</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <button @click="activeElement = 'recursos'" :class="activeElement === 'recursos' ? 'border-brand-500 bg-brand-50/80 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'" class="w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                                <i data-lucide="folder-code" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Recursos y Estrategia</h4>
+                                <p class="text-xs text-slate-500">Dispositivos TIC y mediación didáctica</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+                <!-- Detalles Expositivos del Elemento Seleccionado (Columna Derecha) -->
+                <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm min-h-[360px] flex flex-col justify-between">
+                    
+                    <!-- Profesor -->
+                    <div x-show="activeElement === 'profesor'" x-transition class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="px-2.5 py-1 bg-brand-100 text-brand-800 text-xs font-bold rounded-md">Rol Docente</span>
+                            <h4 class="text-xl font-bold text-slate-900">El Profesor en el Entorno Digital Primario</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Como docentes en formación del Instituto San Joaquín F-23, comprendemos que el profesor no es un mero transmisor técnico, sino el <strong>planificador estratégico y motivador</strong>. En la escuela primaria, el docente:
+                        </p>
+                        <ul class="space-y-2 text-xs text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-600 mt-0.5 shrink-0"></i>
+                                <span>Diseña intervenciones que facilitan aprendizajes significativos y reflexivos.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-600 mt-0.5 shrink-0"></i>
+                                <span>Realiza la <strong>transposición didáctica</strong> adaptando la complejidad del saber sabio a niños de nivel primario.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-600 mt-0.5 shrink-0"></i>
+                                <span>Selecciona intencionalmente los medios tecnológicos orientándolos hacia fines pedagógicos claros.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Estudiantes -->
+                    <div x-show="activeElement === 'estudiantes'" x-transition class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md">Sujetos de Aprendizaje</span>
+                            <h4 class="text-xl font-bold text-slate-900">Los Alumnos de Educación Primaria</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Los niños no son receptores pasivos de información visual o digital. Son agentes activos que procesan e interactúan con los contenidos:
+                        </p>
+                        <ul class="space-y-2 text-xs text-slate-700 bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 mt-0.5 shrink-0"></i>
+                                <span>Desarrollan capacidades de exploración, indagación y pensamiento crítico mediante el uso mediado de pantallas.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 mt-0.5 shrink-0"></i>
+                                <span>Trabajan colaborativamente con sus pares compartiendo descubrimientos en entornos síncronos o asíncronos.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Contenidos -->
+                    <div x-show="activeElement === 'contenidos'" x-transition class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="px-2.5 py-1 bg-sky-100 text-sky-800 text-xs font-bold rounded-md">Dimensión Curricular</span>
+                            <h4 class="text-xl font-bold text-slate-900">Objetivos y Saberes Disciplinares</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Son las metas de aprendizaje seleccionadas prioritariamente según el diseño curricular (Matemática, Lengua, Ciencias):
+                        </p>
+                        <div class="bg-sky-50/60 p-4 rounded-xl border border-sky-100 text-xs text-slate-700 space-y-2">
+                            <p><strong>Criterio Didáctico:</strong> La tecnología no reemplaza el contenido; actúa como vehículo interactivo y amplificador conceptual para que los conceptos abstractos cobren sentido práctico en el entorno del niño.</p>
+                        </div>
+                    </div>
+
+                    <!-- Contexto -->
+                    <div x-show="activeElement === 'contexto'" x-transition class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-md">Entorno Institucional</span>
+                            <h4 class="text-xl font-bold text-slate-900">El Contexto Físico y Comunitario</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            El marco institucional condiciona los tiempos, disponibilidades técnicas y dinámicas socio-educativas del aula. Requiere analizar la infraestructura disponible en la institución para adecuar la propuesta educativa a la realidad concreta.
+                        </p>
+                    </div>
+
+                    <!-- Recursos -->
+                    <div x-show="activeElement === 'recursos'" x-transition class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="px-2.5 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-md">Mediación Digital</span>
+                            <h4 class="text-xl font-bold text-slate-900">Recursos Didácticos y Estrategia</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            La eficacia del recurso (software, simulador, dispositivo) depende estrictamente de la secuencia metodológica planteada por el profesor. Sin una estrategia clara, la herramienta tecnológica carece de valor educativo por sí sola.
+                        </p>
+                    </div>
+
+                    <!-- Cita académica inferior -->
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                        <span>Referencia: Marqués (2001) - El Acto Didáctico</span>
+                        <span class="font-semibold text-brand-600">TIC / Ed. Primaria</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 3: CUADRO COMPARATIVO DE MODELOS TIC -->
+        <!-- ========================================== -->
+        <section x-show="activeTab === 'modelos'" x-transition:enter="transition ease-out duration-300 transform opacity-0 scale-98" class="space-y-8">
+            <div class="max-w-3xl space-y-2">
+                <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Evolución de Entornos Tecnológicos</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Modelos de Uso de TIC en la Escuela Primaria</h2>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Analizamos la transformación organizativa pedagógica: desde las estructuras tradicionales centralizadas hacia la **ubicuidad y el Modelo 1:1**, eje fundamental de la propuesta actual.
+                </p>
+            </div>
+
+            <!-- Tabla Comparativa Dinámica e Interactiva -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                                <th class="p-4 sm:p-5 font-bold w-1/4">Criterio de Análisis</th>
+                                <th class="p-4 sm:p-5 font-bold w-1/4 bg-slate-800/80">Laboratorio de Informática</th>
+                                <th class="p-4 sm:p-5 font-bold w-1/4 bg-slate-800">Computadora en el Aula</th>
+                                <th class="p-4 sm:p-5 font-bold w-1/4 bg-brand-900 text-sky-300">Modelo 1:1 (Ubicuo)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-4 sm:p-5 font-bold text-slate-900 bg-slate-50/50">
+                                    <div class="flex items-center space-x-2">
+                                        <i data-lucide="clock" class="w-4 h-4 text-brand-600"></i>
+                                        <span>Frecuencia y Lugar</span>
+                                    </div>
+                                </td>
+                                <td class="p-4 sm:p-5 text-slate-600">Contacto ocasional. Espacio fijo e independiente del aula de clase.</td>
+                                <td class="p-4 sm:p-5 text-slate-600">Uso permanente pero acotado dentro del aula convencional.</td>
+                                <td class="p-4 sm:p-5 text-brand-950 bg-brand-50/60 font-medium">Contacto permanente, continuo y <strong>ubicuo</strong> (aula, hogar, espacios comunes).</td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-4 sm:p-5 font-bold text-slate-900 bg-slate-50/50">
+                                    <div class="flex items-center space-x-2">
+                                        <i data-lucide="user-check" class="w-4 h-4 text-brand-600"></i>
+                                        <span>Apropiación del Equipo</span>
+                                    </div>
+                                </td>
+                                <td class="p-4 sm:p-5 text-slate-600">Equipos compartidos. Recurso rotativo ajeno a la rutina diaria del alumno.</td>
+                                <td class="p-4 sm:p-5 text-slate-600">Consumo grupal/colectivo. Funciona como soporte complementario o pizarrón.</td>
+                                <td class="p-4 sm:p-5 text-brand-950 bg-brand-50/60 font-medium">Acceso personal e individualizado. Constituye el <strong>"cuaderno digital"</strong> personal.</td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-4 sm:p-5 font-bold text-slate-900 bg-slate-50/50">
+                                    <div class="flex items-center space-x-2">
+                                        <i data-lucide="workflow" class="w-4 h-4 text-brand-600"></i>
+                                        <span>Dinámica de Trabajo</span>
+                                    </div>
+                                </td>
+                                <td class="p-4 sm:p-5 text-slate-600">Pasiva. Dirigida centralmente por el docente de informática.</td>
+                                <td class="p-4 sm:p-5 text-slate-600">Dirigida por el docente de grado para exposiciones o consultas específicas.</td>
+                                <td class="p-4 sm:p-5 text-brand-950 bg-brand-50/60 font-medium">Trabajo en red, colaborativo, autónomo, horizontal e interdisciplinario.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Principio Pedagógico Destacado (1:1 en Primaria) -->
+            <div class="glass-panel p-6 sm:p-8 rounded-2xl border-l-4 border-l-brand-600 shadow-sm space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900">Principio Pedagógico del Modelo 1:1 en la Escuela Primaria</h3>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    Como sostenemos en nuestra propuesta expositiva, el modelo 1:1 no busca reemplazar la presencialidad ni los soportes analógicos tradicionales, sino amplificar las fronteras del aula. Permite la <strong>ubicuidad</strong> (aprender en cualquier momento y lugar), la <strong>multiplicidad de tareas</strong> (leer, filmar, simular, redactar, publicar) y el <strong>acceso personalizado a la información</strong>, convirtiendo al estudiante de primaria en un productor activo de saberes.
+                </p>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 4: MODELO TPACK (INTERACTIVO) -->
+        <!-- ========================================== -->
+        <section x-show="activeTab === 'tpack'" x-transition:enter="transition ease-out duration-300 transform opacity-0 scale-98" class="space-y-8">
+            <div class="max-w-3xl space-y-2">
+                <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Marco Metodológico de Referencia</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">El Modelo TPACK (Mishra & Koehler)</h2>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    El marco TPACK (Technological Pedagogical Content Knowledge) postula que la integración eficaz de las TIC exige la articulación armónica de tres dominios fundamentales del conocimiento docente.
+                </p>
+            </div>
+
+            <!-- Interactivo del Modelo TPACK -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Selector / Diagrama Esquemático de Dimensión (Columna Izquierda) -->
+                <div class="lg:col-span-6 space-y-4">
+                    <div class="bg-slate-900 p-6 rounded-2xl text-white shadow-xl space-y-4 relative overflow-hidden">
+                        <span class="text-xs font-semibold text-sky-400 uppercase tracking-widest block">Explore las Intersecciones</span>
+                        
+                        <!-- Botones de Selección de Núcleos TPACK -->
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <button @click="tpackSelected = 'CK'" :class="tpackSelected === 'CK' ? 'bg-sky-500 text-white font-bold ring-2 ring-sky-300' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="p-3 rounded-xl text-left text-xs transition-all flex flex-col justify-between h-20">
+                                <span class="text-xs opacity-75">Disciplinar</span>
+                                <span class="text-sm font-bold">CK (Content)</span>
+                            </button>
+
+                            <button @click="tpackSelected = 'PK'" :class="tpackSelected === 'PK' ? 'bg-emerald-500 text-white font-bold ring-2 ring-emerald-300' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="p-3 rounded-xl text-left text-xs transition-all flex flex-col justify-between h-20">
+                                <span class="text-xs opacity-75">Pedagógico</span>
+                                <span class="text-sm font-bold">PK (Pedagogy)</span>
+                            </button>
+
+                            <button @click="tpackSelected = 'TK'" :class="tpackSelected === 'TK' ? 'bg-indigo-500 text-white font-bold ring-2 ring-indigo-300' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="p-3 rounded-xl text-left text-xs transition-all flex flex-col justify-between h-20">
+                                <span class="text-xs opacity-75">Tecnológico</span>
+                                <span class="text-sm font-bold">TK (Technology)</span>
+                            </button>
+
+                            <button @click="tpackSelected = 'PCK'" :class="tpackSelected === 'PCK' ? 'bg-teal-600 text-white font-bold ring-2 ring-teal-300' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="p-3 rounded-xl text-left text-xs transition-all flex flex-col justify-between h-20">
+                                <span class="text-xs opacity-75">Intersección</span>
+                                <span class="text-sm font-bold">PCK</span>
+                            </button>
+
+                            <button @click="tpackSelected = 'TCK'" :class="tpackSelected === 'TCK' ? 'bg-purple-600 text-white font-bold ring-2 ring-purple-300' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="p-3 rounded-xl text-left text-xs transition-all flex flex-col justify-between h-20">
+                                <span class="text-xs opacity-75">Intersección</span>
+                                <span class="text-sm font-bold">TCK</span>
+                            </button>
+
+                            <button @click="tpackSelected = 'TPK'" :class="tpackSelected === 'TPK' ? 'bg-amber-600 text-white font-bold ring-2 ring-amber-300' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="p-3 rounded-xl text-left text-xs transition-all flex flex-col justify-between h-20">
+                                <span class="text-xs opacity-75">Intersección</span>
+                                <span class="text-sm font-bold">TPK</span>
+                            </button>
+                        </div>
+
+                        <!-- Botón Núcleo Principal TPCK -->
+                        <button @click="tpackSelected = 'TPCK'" :class="tpackSelected === 'TPCK' ? 'bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950 font-extrabold ring-4 ring-white/20' : 'bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-750'" class="w-full p-4 rounded-xl text-center text-xs sm:text-sm uppercase tracking-wider transition-all shadow-md">
+                            🎯 Núcleo Central: TPCK (Saber Didáctico-Tecnológico Integrado)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Panel Explicativo Adaptado a Primaria (Columna Derecha) -->
+                <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm min-h-[360px] flex flex-col justify-between">
+                    
+                    <!-- CK -->
+                    <div x-show="tpackSelected === 'CK'" x-transition class="space-y-4">
+                        <div class="inline-block px-3 py-1 bg-sky-100 text-sky-800 text-xs font-bold rounded-lg">Dominio Disciplinar</div>
+                        <h3 class="text-xl font-bold text-slate-900">CK - Conocimiento Disciplinar (Content Knowledge)</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Es el saber específico sobre la materia a enseñar (conceptos, teorías y procedimientos de Ciencias Naturales, Matemática, Lengua, Ciencias Sociales).
+                        </p>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700">
+                            <strong>Aplicación en Primaria:</strong> Dominar con solvencia los contenidos del diseño curricular oficial antes de seleccionar cualquier herramienta digital.
+                        </div>
+                    </div>
+
+                    <!-- PK -->
+                    <div x-show="tpackSelected === 'PK'" x-transition class="space-y-4">
+                        <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg">Dominio Pedagógico</div>
+                        <h3 class="text-xl font-bold text-slate-900">PK - Conocimiento Pedagógico (Pedagogical Knowledge)</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            El conocimiento profundo de los procesos de enseñanza y aprendizaje, dinámicas de aula, gestión del grupo escolar, teorías del desarrollo infantil y estrategias evaluativas.
+                        </p>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700">
+                            <strong>Aplicación en Primaria:</strong> Saber cómo aprenden los niños según sus etapas evolutivas y cómo estructurar secuencias metodológicas activas.
+                        </div>
+                    </div>
+
+                    <!-- TK -->
+                    <div x-show="tpackSelected === 'TK'" x-transition class="space-y-4">
+                        <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-lg">Dominio Tecnológico</div>
+                        <h3 class="text-xl font-bold text-slate-900">TK - Conocimiento Tecnológico (Technological Knowledge)</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Comprender las tecnologías informáticas, dispositivos móviles, software educativo, plataformas en red y herramientas digitales tanto analógicas como de última generación.
+                        </p>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700">
+                            <strong>Aplicación en Primaria:</strong> Habilidad técnica para operar dispositivos 1:1, aplicaciones interactivas y entornos de aprendizaje virtual con dinamismo.
+                        </div>
+                    </div>
+
+                    <!-- PCK -->
+                    <div x-show="tpackSelected === 'PCK'" x-transition class="space-y-4">
+                        <div class="inline-block px-3 py-1 bg-teal-100 text-teal-800 text-xs font-bold rounded-lg">Intersección Pedagógico-Disciplinar</div>
+                        <h3 class="text-xl font-bold text-slate-900">PCK - Conocimiento Pedagógico del Contenido</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Es la capacidad de adaptar y transformar el saber disciplinar académico en formas accesibles, estimulantes y comprensibles para los alumnos.
+                        </p>
+                    </div>
+
+                    <!-- TCK -->
+                    <div x-show="tpackSelected === 'TCK'" x-transition class="space-y-4">
+                        <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-lg">Intersección Tecnológico-Disciplinar</div>
+                        <h3 class="text-xl font-bold text-slate-900">TCK - Conocimiento Tecnológico del Contenido</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Comprensión de cómo el contenido específico puede ser representado o transformado mediante aplicaciones tecnológicas concretas (ej. un simulador interactivo para comprender el Sistema Solar o el ciclo del agua).
+                        </p>
+                    </div>
+
+                    <!-- TPK -->
+                    <div x-show="tpackSelected === 'TPK'" x-transition class="space-y-4">
+                        <div class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-lg">Intersección Tecnológico-Pedagógico</div>
+                        <h3 class="text-xl font-bold text-slate-900">TPK - Conocimiento Tecnológico Pedagógico</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Conocimiento de cómo las distintas herramientas tecnológicas modifican las formas de enseñar y aprender, posibilitando dinámicas colaborativas, gamificadas o por proyectos en el aula.
+                        </p>
+                    </div>
+
+                    <!-- TPCK (NÚCLEO) -->
+                    <div x-show="tpackSelected === 'TPCK'" x-transition class="space-y-4">
+                        <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-900 text-xs font-bold rounded-lg">Núcleo Integrador Experto</div>
+                        <h3 class="text-xl font-bold text-slate-900">TPCK - Conocimiento Tecnológico Pedagógico del Contenido</h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Es el saber docente complejo y articulado donde los tres dominios se negocian armónicamente. El profesor no usa tecnología por innovación vacía, sino porque entiende profundamente <strong>qué contenido enseñar, con qué estrategia pedagógica y mediante qué dispositivo tecnológico específico</strong>.
+                        </p>
+                        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-slate-800 space-y-1">
+                            <span class="font-bold text-emerald-900 block">Síntesis para la Educación Primaria:</span>
+                            <p>Garantiza que la inclusión digital potencie el razonamiento reflexivo de los niños sin descuidar el rigor de los contenidos curriculares.</p>
+                        </div>
+                    </div>
+
+                    <!-- Nota bibliográfica footer -->
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                        <span>Mishra & Koehler (2006)</span>
+                        <span class="font-semibold text-brand-600">Integración Eficaz de TIC</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 5: ESTRATEGIAS INNOVADORAS         -->
+        <!-- ========================================== -->
+        <section x-show="activeTab === 'estrategias'" x-transition:enter="transition ease-out duration-300 transform opacity-0 scale-98" class="space-y-8">
+            <div class="max-w-3xl space-y-2">
+                <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Propuesta Práctica de Intervención</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Estrategias Didácticas Innovadoras para Primaria</h2>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Diseñamos tres propuestas metodológicas concretas que operacionalizan la ubicuidad del Modelo 1:1 y el marco TPACK en el contexto real del aula de primaria.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Estrategia 1 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div class="p-6 space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-lg">
+                            01
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">Estaciones de Aprendizaje Digitales y Sensoriales</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Organización del aula en cuatro estaciones rotativas (15-20 min) para abordar un mismo tema disciplinar desde múltiples modos de representación:
+                        </p>
+                        <ul class="space-y-2 text-xs text-slate-700 pt-2">
+                            <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                                <strong>Estación 1 (Digital):</strong> Simulador interactivo en dispositivo 1:1.
+                            </li>
+                            <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                                <strong>Estación 2 (Sensorial):</strong> Experimento físico o maquetas manipulables.
+                            </li>
+                            <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                                <strong>Estación 3 (Producción):</strong> Muro digital (Padlet) o síntesis visual.
+                            </li>
+                            <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                                <strong>Estación 4 (Debate):</strong> Reflexión y metacognición con el docente.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-sky-50 p-4 border-t border-sky-100 text-xs text-sky-900 font-medium">
+                        💡 Fomenta la autonomía y la atención diversificada.
+                    </div>
+                </div>
+
+                <!-- Estrategia 2 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div class="p-6 space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg">
+                            02
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">Gamificación y "Escape Room" Educativo</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Transformación de los contenidos curriculares en desafíos lúdicos y misiones gamificadas mediante aplicaciones interactivas (Genially, Wordwall):
+                        </p>
+                        <div class="space-y-2 text-xs text-slate-700 pt-2">
+                            <p class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                Los alumnos resuelven enigmas de comprensión conceptual en sus dispositivos para obtener claves numéricas que "destraban" la siguiente fase de aprendizaje.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-purple-50 p-4 border-t border-purple-100 text-xs text-purple-900 font-medium">
+                        🎮 Estimula el trabajo en equipo y el pensamiento lógico.
+                    </div>
+                </div>
+
+                <!-- Estrategia 3 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div class="p-6 space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg">
+                            03
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">ABP con Narrativas Transmedia</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Aprendizaje Basado en Proyectos donde los estudiantes asumen el rol de investigadores (ej. "Detectives Ambientales"):
+                        </p>
+                        <div class="space-y-2 text-xs text-slate-700 pt-2">
+                            <p class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                Utilizan la cámara y micrófono del dispositivo 1:1 para recolectar evidencias del entorno, produciendo un podcast escolar o un folleto digital integrador para la comunidad.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-emerald-50 p-4 border-t border-emerald-100 text-xs text-emerald-900 font-medium">
+                        🌱 Promueve el aprendizaje situado y ciudadano.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 6: RÚBRICA DE EVALUACIÓN INTERACTIVA -->
+        <!-- ========================================== -->
+        <section x-show="activeTab === 'evaluacion'" x-transition:enter="transition ease-out duration-300 transform opacity-0 scale-98" class="space-y-8">
+            <div class="max-w-3xl space-y-2">
+                <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Evaluación Formativa y Procesual</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Rúbrica de Evaluación Formativa en Entornos TIC</h2>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    La evaluación en propuestas mediadas por TIC no se limita al producto final, sino al proceso de indagación, responsabilidad digital y colaboración colectiva.
+                </p>
+            </div>
+
+            <!-- Instrumento de Rúbrica Interactivo -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="p-4 sm:p-6 bg-slate-900 text-white flex justify-between items-center">
+                    <span class="text-xs uppercase font-bold text-sky-400 tracking-wider">Instrumento de Valoración Didáctica</span>
+                    <span class="text-xs text-slate-400">Modelo Formativo Nivel Primario</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-800 text-xs uppercase tracking-wider border-b border-slate-200">
+                                <th class="p-4 font-bold w-1/4">Criterio Pedagógico</th>
+                                <th class="p-4 font-bold w-1/4 text-emerald-700">Excelente (4 pts)</th>
+                                <th class="p-4 font-bold w-1/4 text-brand-700">Satisfactorio (3 pts)</th>
+                                <th class="p-4 font-bold w-1/4 text-amber-700">En Proceso (2 pts)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs">
+                            <!-- Criterio 1: CK -->
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-4 font-bold text-slate-900 bg-slate-50/50">
+                                    <div class="space-y-1">
+                                        <div class="text-sm">Comprensión Disciplinar (CK)</div>
+                                        <span class="text-slate-500 font-normal block">Apropiación de contenidos y conceptos clave.</span>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-slate-700 bg-emerald-50/20">
+                                    Demuestra una comprensión profunda de los conceptos y los aplica creativamente en las tareas con TIC.
+                                </td>
+                                <td class="p-4 text-slate-700 bg-brand-50/20">
+                                    Comprende los conceptos principales con guía mínima del docente y resuelve adecuadamente.
+                                </td>
+                                <td class="p-4 text-slate-700 bg-amber-50/20">
+                                    Presenta confusiones conceptuales recurrentes que requieren intervención constante del docente.
+                                </td>
+                            </tr>
+
+                            <!-- Criterio 2: TK -->
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-4 font-bold text-slate-900 bg-slate-50/50">
+                                    <div class="space-y-1">
+                                        <div class="text-sm">Uso Responsable y TCN (TK)</div>
+                                        <span class="text-slate-500 font-normal block">Manejo del dispositivo y netiqueta.</span>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-slate-700 bg-emerald-50/20">
+                                    Utiliza el dispositivo con total autonomía, cuidado físico impecable y enfoque permanente en la consigna.
+                                </td>
+                                <td class="p-4 text-slate-700 bg-brand-50/20">
+                                    Maneja el dispositivo adecuadamente pero requiere recordatorios esporádicos sobre la tarea pedagógica.
+                                </td>
+                                <td class="p-4 text-slate-700 bg-amber-50/20">
+                                    Muestra dificultad técnica o distracción constante con aplicaciones o juegos ajenos a la consigna.
+                                </td>
+                            </tr>
+
+                            <!-- Criterio 3: PK -->
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-4 font-bold text-slate-900 bg-slate-50/50">
+                                    <div class="space-y-1">
+                                        <div class="text-sm">Colaboración y Red (PK)</div>
+                                        <span class="text-slate-500 font-normal block">Trabajo en equipo y respeto al par.</span>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-slate-700 bg-emerald-50/20">
+                                    Participa activamente, lidera democráticamente, respeta roles y enriquece las producciones grupales.
+                                </td>
+                                <td class="p-4 text-slate-700 bg-brand-50/20">
+                                    Trabaja bien en equipo y cumple con las responsabilidades asignadas dentro del grupo.
+                                </td>
+                                <td class="p-4 text-slate-700 bg-amber-50/20">
+                                    Presenta dificultades para integrarse o realizar aportes significativos al trabajo colaborativo.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER Y CRÉDITOS ACADÉMICOS -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <p class="font-semibold text-slate-200">Instituto Privado San Joaquín F-23 — Profesorado de Educación Primaria</p>
+                <p class="text-slate-500 mt-0.5">Cátedra de TIC (2026) | Presentación para el Prof. Franco</p>
+            </div>
+            <div class="text-right">
+                <p class="text-slate-300">Integrantes: <strong>Rios, Maximiliano</strong> & <strong>Erazo, Luciano</strong></p>
+                <p class="text-slate-500 mt-0.5">San Miguel de Tucumán, Argentina</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inicialización de Lucide Icons -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
